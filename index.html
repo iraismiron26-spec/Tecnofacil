@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecnofacil · Celulares y tecnología explicados despacio</title>
+<meta name="description" content="Cómo usar el celular, WhatsApp, internet y más, explicado muy despacio, paso a paso, sin palabras raras, para personas mayores.">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style>
+  :root{
+    --fondo:#ffffff;
+    --texto:#111827;
+    --principal:#1d4ed8;
+    --claro:#eff6ff;
+    --borde:#cbd5e1;
+    --tamano:19px;
+  }
+  html.oscuro{
+    --fondo:#0b1220;
+    --texto:#f1f5f9;
+    --principal:#60a5fa;
+    --claro:#111c33;
+    --borde:#1f2a44;
+  }
+  html.letra-grande{--tamano:21px}
+  html.letra-muy-grande{--tamano:24px}
+  html{font-size:var(--tamano); scroll-behavior:smooth}
+  body{background:var(--fondo); color:var(--texto); transition:.4s}
+  .btn{background:var(--principal); color:white; padding:.7rem 1.1rem; border-radius:14px; font-weight:600; display:inline-block}
+  .btn:hover{filter:brightness(1.1); transform:translateY(-1px)}
+  .tarjeta{background:var(--claro); border:1px solid var(--borde); border-radius:18px; padding:1.2rem; transition:.25s}
+  .tarjeta:hover{border-color:var(--principal); box-shadow:0 8px 22px -10px #1d4ed880}
+  .categoria{border:1px solid var(--borde); padding:.4rem .9rem; border-radius:999px; font-size:.85rem; cursor:pointer}
+  .categoria.activo,.categoria:hover{background:var(--principal); color:white; border-color:var(--principal)}
+  details>summary{cursor:pointer; list-style:none; font-weight:600; padding:.8rem 0}
+  details>summary::-webkit-details-marker{display:none}
+  .linea{height:1px; background:var(--borde); margin:1.2rem 0}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ✋ CABECERA CON CONTROLES PRINCIPALES -->
+<header class="border-b" style="border-color:var(--borde)">
+  <div class="max-w-5xl mx-auto px-4 py-5">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold" style="color:var(--principal)">📱 Tecnofacil</h1>
+        <p class="opacity-80 text-sm md:text-base mt-1">Explicado <b>muy despacio</b>, paso a paso, para todos.</p>
+      </div>
+      <div class="flex flex-wrap gap-2 items-center">
+        <span class="text-sm opacity-70 mr-1">Letra:</span>
+        <button data-tamano="" class="categoria">A</button>
+        <button data-tamano="letra-grande" class="categoria">A+</button>
+        <button data-tamano="letra-muy-grande" class="categoria">A++</button>
+        <button id="tema" class="categoria">🌙 / ☀️</button>
+      </div>
+    </div>
+
+    <!-- 🔎 BUSCADOR MUY VISIBLE -->
+    <div class="mt-5 relative">
+      <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
+      <input id="buscador" type="text" placeholder="¿Qué quieres aprender hoy? Escribe aquí: WhatsApp, letras grandes, estafas…"
+      class="w-full pl-14 pr-4 py-4 rounded-2xl text-lg outline-none border-2"
+      style="background:var(--claro); border-color:var(--borde)">
+    </div>
+
+    <!-- 🗂️ CATEGORÍAS -->
+    <div class="mt-4 flex flex-wrap gap-2" id="categorias">
+      <span class="categoria activo" data-cat="">✅ Todas</span>
+      <span class="categoria" data-cat="whatsapp">💬 WhatsApp</span>
+      <span class="categoria" data-cat="celular">📱 El celular</span>
+      <span class="categoria" data-cat="seguridad">🛡️ Seguridad y estafas</span>
+      <span class="categoria" data-cat="banco">🏦 Banco y dinero</span>
+      <span class="categoria" data-cat="compras">🛒 Compras por internet</span>
+      <span class="categoria" data-cat="favoritos">⭐ Mis favoritos</span>
+    </div>
+  </div>
+</header>
+
+<!-- 📚 CONTENIDO PRINCIPAL -->
+<main class="max-w-5xl mx-auto px-4 py-8">
+  <div class="grid md:grid-cols-2 gap-5" id="lista"></div>
+  <div id="vacio" class="hidden text-center py-16 opacity-80">
+    <div class="text-6xl mb-3">🔎</div>
+    <h3 class="text-xl font-bold">No encontramos eso todavía</h3>
+    <p class="mt-2">Prueba escribir otras palabras o elige otra categoría. Cada semana agregamos guías nuevas.</p>
+  </div>
+
+  <!-- ❓ PREGUNTAS FRECUENTES -->
+  <div class="linea mt-14 mb-6"></div>
+  <h2 class="text-2xl font-extrabold mb-4" style="color:var(--principal)">❓ Preguntas que nos hacen siempre</h2>
+  <div class="space-y-2">
+    <details class="tarjeta"><summary>→ ¿Es seguro dar mi número por internet?</summary><p class="pt-2">No lo des en páginas que no conozcas ni a personas que no hayas visto en persona. Los bancos NUNCA te piden tu número por mensaje.</p></details>
+    <details class="tarjeta"><summary>→ ¿Cómo hago para que las letras se vean más grandes?</summary><p class="pt-2">Arriba a la derecha tienes botones <b>A · A+ · A++</b>, púlsalos hasta que te quede cómodo. También lo trae el celular en Ajustes > Pantalla > Tamaño de letra.</p></details>
+    <details class="tarjeta"><summary>→ Si borro un mensaje de WhatsApp, ¿la otra persona ya no lo ve?</summary><p class="pt-2">Solo si dices "eliminar para todos". Si dice "eliminar solo para mí", tú no lo ves, pero la otra persona sí. Y solo se puede hacer hasta 2 días y medio después de enviarlo.</p></details>
+    <details class="tarjeta"><summary>→ ¿Me pueden robar dinero solo con mi número de celular?</summary><p class="pt-2">Solo con el número NO, pero si te mandan mensajes con códigos y tú se los das, SÍ. <b>Nunca envíes ni digas a nadie los códigos que te llegan por mensaje</b>, ni aunque digan que son del banco o de WhatsApp.</p></details>
+  </div>
+
+  <!-- ✍️ ENVÍA TU PREGUNTA -->
+  <div class="linea mt-14 mb-6"></div>
+  <h2 class="text-2xl font-extrabold mb-4" style="color:var(--principal)">✍️ Envíanos tu propia pregunta</h2>
+  <form id="formPregunta" class="tarjeta">
+    <label class="block mb-1">Tu nombre</label>
+    <input required id="nombre" class="w-full p-3 rounded-xl border-2 mb-3 outline-none" style="border-color:var(--borde);background:var(--fondo)">
+    <label class="block mb-1">¿Qué quieres saber?</label>
+    <textarea required id="pregunta" rows="3" class="w-full p-3 rounded-xl border-2 mb-3 outline-none resize-none" style="border-color:var(--borde);background:var(--fondo)"></textarea>
+    <button class="btn text-lg">➤ Enviar pregunta</button>
+    <p id="okPregunta" class="hidden mt-3 text-green-600 font-semibold">✅ ¡Listo! La recibimos bien, la responderemos muy pronto.</p>
+  </form>
+</main>
+
+<!-- 📖 MODAL PARA LEER LA GUÍA COMPLETA -->
+<div id="modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+  <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background:var(--fondo)">
+    <div class="flex justify-between items-start mb-3">
+      <span id="modalCat" class="categoria"></span>
+      <button id="cerrarModal" class="text-3xl leading-none">×</button>
+    </div>
+    <h3 id="modalTitulo" class="text-2xl font-extrabold mb-2" style="color:var(--principal)"></h3>
+    <div id="modalCuerpo" class="leading-relaxed space-y-3 mt-4"></div>
+    <div class="mt-5 text-sm opacity-70">💡 Recuerda: si te cuesta ver, usa los botones <b>A+ A++</b> de arriba a la derecha.</div>
+  </div>
+</div>
+
+<footer class="text-center text-sm opacity-60 py-8 border-t" style="border-color:var(--borde)">
+  Hecho con paciencia y cariño · <b>Tecnología Sin Prisa</b> · 2026 · No usamos datos personales sin permiso
+</footer>
+
+<script>
+// 📋 BASE DE DATOS DE GUÍAS — AQUÍ PUEDES AGREGAR MÁS CUANDO QUIERAS
+const GUIAS = [
+{id:1,titulo:"Cómo poner LETRAS MUY GRANDES en el celular",cat:"celular",icono:"🔤",
+cuerpo:`<p>1. Entra a <b>Ajustes</b> o <b>Configuración</b> (es el dibujo de ⚙️ una ruedita).</p>
+<p>2. Baja hasta encontrar <b>Pantalla</b> y entra ahí.</p>
+<p>3. Busca <b>Tamaño de fuente</b> o <b>Tamaño de letra</b>.</p>
+<p>4. Verás una rayita con una bolita: muévela hacia la DERECHA hasta que se vea bien para ti.</p>
+<p>5. Sal y listo, todo quedó guardado solo.</p>
+<p>✅ También puedes usar los botones <b>A · A+ · A++</b> que están aquí arriba en la página, cambia solo esta web.</p>`},
+
+{id:2,titulo:"Cómo mandar FOTOS y VIDEOS por WhatsApp",cat:"whatsapp",icono:"📸",
+cuerpo:`<p>1. Abre WhatsApp y entra al chat de la persona.</p>
+<p>2. Abajo a la derecha verás un dibujo de <b>📎 un clip</b>, púlsalo.</p>
+<p>3. Elige <b>Galería</b>.</p>
+<p>4. Toca una vez la foto o video que quieras mandar. Puedes tocar varias para mandar muchas juntas.</p>
+<p>5. Dale a la flecha verde ➤ y ya viajó.</p>
+<p>⚠️ Consejo: si la foto es muy importante, escribe algo abajo antes de enviar, para que sepa qué es.</p>`},
+
+{id:3,titulo:"⚠️ ESTAFAS MÁS COMUNES y cómo NO caer",cat:"seguridad",icono:"🚨",
+cuerpo:`<p>❌ <b>"Ganaste un premio, paga para recibirlo"</b> → MENTIRA. Los premios NUNCA se pagan.</p>
+<p>❌ <b>El banco manda mensaje pidiendo claves o códigos</b> → EL BANCO NUNCA PIDE ESO. Cuelga y borra.</p>
+<p>❌ <b>Familiar pidiendo dinero por mensaje urgente</b> → Llámalo por teléfono ANTES de mandar nada, a veces roban la cuenta.</p>
+<p>❌ <b>Enlace raro que dice "mira esta foto tuya"</b> → NO ABRAS, roban todo.</p>
+<p>✅ REGLA DE ORO: <b>NUNCA des claves, NUNCA des códigos que te lleguen al celular</b>.</p>`},
+
+{id:4,titulo:"Cómo hacer VIDEOCONFERENCIA por WhatsApp",cat:"whatsapp",icono:"📹",
+cuerpo:`<p>1. Abre el chat con quien quieras hablar.</p>
+<p>2. Arriba a la derecha verás dos dibujos: 📞 teléfono y 📹 cámara.</p>
+<p>3. Toca la <b>📹 CÁMARA</b> para que se vean los dos.</p>
+<p>4. Si solo quieres oír y que no te vean, toca el dibujo de la cámara otra vez y se apaga.</p>
+<p>5. Para colgar, el botón rojo grande de abajo.</p>
+<p>💡 Solo gasta internet, no cuesta dinero del saldo.</p>`},
+
+{id:5,titulo:"Cómo revisar SALDO en el banco por el celular",cat:"banco",icono:"💰",
+cuerpo:`<p>1. Descarga SOLO la aplicación oficial de tu banco, de la tienda de aplicaciones. NUNCA de enlaces.</p>
+<p>2. Ábrela una vez y sigue los pasos para registrarte, solo la primera vez.</p>
+<p>3. Te llegará un <b>código por mensaje de texto</b>, escríbelo ahí.</p>
+<p>4. Crea una contraseña que solo tú sepas, <b>nunca se la des a nadie</b>.</p>
+<p>5. Al entrar, lo primero que verás casi siempre es cuánto dinero tienes.</p>
+<p>⚠️ Si algo te parece raro, cierra todo y ve directo a la sucursal.</p>`},
+
+{id:6,titulo:"Qué celular comprar si soy mayor y no quiero complicaciones",cat:"celular",icono:"🛒",
+cuerpo:`<p>✅ <b>Lo mejor para empezar:</b> Samsung serie A o Motorola serie G, de gama media. Son claros, duran y se entienden fácil.</p>
+<p>✅ <b>Tamaño de pantalla:</b> mínimo <b>6.5 pulgadas</b>, así las letras salen más grandes solas.</p>
+<p>✅ <b>Batería:</b> que diga <b>5000 mAh</b> o más, dura 2‑3 días sin cargar.</p>
+<p>❌ NO hace falta pagar muy caro. Entre <b>$2 200 y $3 800 pesos mexicanos</b> hay muy buenos, más que suficientes.</p>
+<p>❌ Evita marcas que nunca has oído nombrar, aunque salgan muy baratas.</p>`},
+
+{id:7,titulo:"Cómo comprar SEGURO por Mercado Libre / internet",cat:"compras",icono:"✅",
+cuerpo:`<p>1. Fíjate que diga <b>Envío gratis</b> y <b>Garantía Mercado Libre</b>.</p>
+<p>2. Lee los <b>comentarios de la gente</b>, si dicen cosas malas o dicen que mienten, NO compres ahí.</p>
+<p>3. <b>NUNCA pagues por fuera de la página</b> (nunca transferencia directa, nunca WhatsApp). Solo adentro con tarjeta o efectivo en OXXO.</p>
+<p>4. Guarda siempre el número de pedido.</p>
+<p>5. Si no llega o llega roto, la página te devuelve el dinero 100 % si pagaste bien adentro.</p>`},
+
+{id:8,titulo:"Cómo BORRAR lo que buscas para que nadie lo vea",cat:"seguridad",icono:"🧹",
+cuerpo:`<p>En Google Chrome:</p>
+<p>1. Arriba a la derecha los 3 puntitos ⋮</p>
+<p>2. <b>Historial</b> → <b>Borrar datos de navegación</b></p>
+<p>3. Marca todo y dale <b>Borrar datos</b>.</p>
+<p>⚠️ Esto borra de tu celular. La compañía de internet y el gobierno sí pueden seguir viendo, solo es para quien agarre tu celular después.</p>`},
+];
+
+const $ = s => document.querySelector(s);
+const BD = JSON.parse(localStorage.getItem('tec-sin-prisa') || '{"favoritos":[],"tema":"claro","tamano":""}');
+
+// ⚙️ CARGAR CONFIGURACIÓN GUARDADA
+if(BD.tema==='oscuro') document.documentElement.classList.add('oscuro');
+if(BD.tamano) document.documentElement.classList.add(BD.tamano);
+
+// 🎨 TEMA OSCURO / CLARO
+$('#tema').onclick = () => {
+  document.documentElement.classList.toggle('oscuro');
+  BD.tema = document.documentElement.classList.contains('oscuro')?'oscuro':'claro';
+  guardar();
+};
+
+// 🔤 TAMAÑO DE LETRA
+document.querySelectorAll('[data-tamano]').forEach(b=>{
+  b.onclick = () => {
+    document.documentElement.classList.remove('letra-grande','letra-muy-grande');
+    if(b.dataset.tamano) document.documentElement.classList.add(b.dataset.tamano);
+    BD.tamano = b.dataset.tamano; guardar();
+    document.querySelectorAll('[data-tamano]').forEach(x=>x.classList.remove('activo'));
+    b.classList.add('activo');
+  }
+  if(b.dataset.tamano===BD.tamano) b.classList.add('activo');
+});
+
+// 🗂️ FILTROS CATEGORÍAS
+let catActiva = '';
+document.querySelectorAll('#categorias .categoria').forEach(c=>{
+  c.onclick = () => {
+    document.querySelectorAll('#categorias .categoria').forEach(x=>x.classList.remove('activo'));
+    c.classList.add('activo');
+    catActiva = c.dataset.cat;
+    pintar();
+  }
+});
+
+// 🔎 BUSCADOR EN TIEMPO REAL
+$('#buscador').addEventListener('input', pintar);
+
+// ⭐ FAVORITOS
+function favorito(id){
+  const i = BD.favoritos.indexOf(id);
+  i>=0 ? BD.favoritos.splice(i,1) : BD.favoritos.push(id);
+  guardar(); pintar();
+}
+
+function guardar(){ localStorage.setItem('tec-sin-prisa', JSON.stringify(BD)) }
+
+// 🖨️ DIBUJAR TODO EN PANTALLA
+function pintar(){
+  const q = $('#buscador').value.toLowerCase().trim();
+  let lista = GUIAS;
+  if(catActiva==='favoritos') lista = lista.filter(g=>BD.favoritos.includes(g.id));
+  else if(catActiva) lista = lista.filter(g=>g.cat===catActiva);
+  if(q) lista = lista.filter(g=> (g.titulo+' '+g.cuerpo).toLowerCase().includes(q));
+
+  $('#vacio').classList.toggle('hidden', lista.length>0);
+  $('#lista').innerHTML = lista.map(g=>`
+  <article class="tarjeta flex flex-col">
+    <div class="flex items-start justify-between gap-2">
+      <div>
+        <span class="categoria">${g.cat}</span>
+        <h3 class="text-xl font-bold mt-2">${g.icono} ${g.titulo}</h3>
+      </div>
+      <button onclick="favorito(${g.id})" class="text-2xl" title="Guardar en favoritos">${BD.favoritos.includes(g.id)?'⭐':'☆'}</button>
+    </div>
+    <p class="mt-3 opacity-80 flex-1">${g.cuerpo.replace(/<[^>]+>/g,' ').slice(0,130)}…</p>
+    <button data-ver="${g.id}" class="btn mt-4 text-base">➤ Leer guía completa paso a paso</button>
+  </article>`).join('');
+
+  document.querySelectorAll('[data-ver]').forEach(b=>b.onclick=()=>abrirModal(+b.dataset.ver));
+}
+
+// 📖 ABRIR GUÍA COMPLETA
+function abrirModal(id){
+  const g = GUIAS.find(x=>x.id===id);
+  $('#modalTitulo').textContent = g.icono+' '+g.titulo;
+  $('#modalCat').textContent = g.cat;
+  $('#modalCuerpo').innerHTML = g.cuerpo;
+  $('#modal').classList.remove('hidden');
+  $('#modal').classList.add('flex');
+}
+$('#cerrarModal').onclick = () => $('#modal').classList.add('hidden');
+$('#modal').onclick = e => { if(e.target===$('#modal')) $('#modal').classList.add('hidden') };
+
+// ✍️ PREGUNTA
+$('#formPregunta').onsubmit = e => {
+  e.preventDefault();
+  const anteriores = JSON.parse(localStorage.getItem('preguntas')||'[]');
+  anteriores.push({nombre:$('#nombre').value, pregunta:$('#pregunta').value, fecha:new Date().toLocaleString('es-MX')});
+  localStorage.setItem('preguntas', JSON.stringify(anteriores));
+  $('#formPregunta').reset();
+  $('#okPregunta').classList.remove('hidden');
+  setTimeout(()=>$('#okPregunta').classList.add('hidden'),6000);
+};
+
+// 🚀 INICIAR
+pintar();
+</script>
+</body>
+</html>
