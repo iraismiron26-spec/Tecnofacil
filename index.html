@@ -270,10 +270,10 @@
   <div class="linea mt-14 mb-6"></div>
   <h2 class="text-2xl font-extrabold mb-4" style="color:var(--principal)">✍️ Envíanos tu propia pregunta</h2>
   <form id="formPregunta" class="tarjeta">
-    <label class="block mb-1">Tu nombre</label>
-    <input required id="nombre" class="w-full p-3 rounded-xl border-2 mb-3 outline-none" style="border-color:var(--borde);background:var(--fondo)">
-    <label class="block mb-1">¿Qué quieres saber?</label>
-    <textarea required id="pregunta" rows="3" class="w-full p-3 rounded-xl border-2 mb-3 outline-none resize-none" style="border-color:var(--borde);background:var(--fondo)"></textarea>
+    <label for="nombre" class="block mb-1">Tu nombre</label>
+    <input required id="nombre" name="nombre" class="w-full p-3 rounded-xl border-2 mb-3 outline-none" style="border-color:var(--borde);background:var(--fondo)">
+    <label for="pregunta" class="block mb-1">¿Qué quieres saber?</label>
+    <textarea required id="pregunta" name="pregunta" rows="3" class="w-full p-3 rounded-xl border-2 mb-3 outline-none resize-none" style="border-color:var(--borde);background:var(--fondo)"></textarea>
     <button class="btn text-lg">➤ Enviar pregunta</button>
     <p id="okPregunta" class="hidden mt-3 text-green-600 font-semibold">✅ ¡Listo! La recibimos bien, la responderemos muy pronto.</p>
     <p id="statusNube" class="hidden mt-2 text-sm opacity-80">☁️ Pregunta guardada en la nube.</p>
