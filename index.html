@@ -5,7 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tecnofacil · Celulares y tecnología explicados despacio</title>
 <meta name="description" content="Cómo usar el celular, WhatsApp, internet y más, explicado muy despacio, paso a paso, sin palabras raras, para personas mayores.">
+<link rel="canonical" href="https://tecnofacil.example.com/">
+<meta name="theme-color" content="#1d4ed8">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-512.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tecnofacil · Celulares y tecnología explicados despacio">
+<meta property="og:description" content="Cómo usar el celular, WhatsApp, internet y más, explicado muy despacio, paso a paso, sin palabras raras, para personas mayores.">
+<meta property="og:url" content="https://tecnofacil.example.com/">
+<meta property="og:site_name" content="Tecnofacil">
+<meta property="og:locale" content="es_MX">
+<meta property="og:image" content="https://tecnofacil.example.com/og-image.png">
+<meta property="og:image:alt" content="Tecnofacil - guías sencillas para personas mayores">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tecnofacil · Celulares y tecnología explicados despacio">
+<meta name="twitter:description" content="Cómo usar el celular, WhatsApp, internet y más, explicado muy despacio, paso a paso, sin palabras raras, para personas mayores.">
+<meta name="twitter:image" content="https://tecnofacil.example.com/og-image.png">
+<meta name="twitter:creator" content="@tecnofacil">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://tecnofacil.example.com/",
+  "name": "Tecnofacil",
+  "description": "Guías claras y muy despacio para que las personas mayores aprendan a usar el celular y la tecnología.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tecnofacil"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Es seguro dar mi número por internet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No lo des en páginas que no conozcas ni a personas que no hayas visto en persona. Los bancos NUNCA te piden tu número por mensaje."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo hago para que las letras se vean más grandes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Arriba a la derecha tienes botones A · A+ · A++, púlsalos hasta que te quede cómodo. También lo trae el celular en Ajustes > Pantalla > Tamaño de letra."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Si borro un mensaje de WhatsApp, ¿la otra persona ya no lo ve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Solo si dices 'eliminar para todos'. Si dice 'eliminar solo para mí', tú no lo ves, pero la otra persona sí. Y solo se puede hacer hasta 2 días y medio después de enviarlo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Me pueden robar dinero solo con mi número de celular?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Solo con el número NO, pero si te mandan mensajes con códigos y tú se los das, SÍ. Nunca envíes ni digas a nadie los códigos que te llegan por mensaje, ni aunque digan que son del banco o de WhatsApp."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tecnofacil · Celulares y tecnología explicados despacio",
+  "description": "Guías claras y muy despacio para personas mayores que quieren aprender a usar el celular y servicios digitales.",
+  "author": {
+    "@type": "Person",
+    "name": "Tecnología Sin Prisa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tecnofacil"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tecnofacil.example.com/"
+  }
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<link rel="manifest" href="manifest.webmanifest">
 <style>
   :root{
     --fondo:#ffffff;
@@ -22,14 +116,39 @@
     --claro:#111c33;
     --borde:#1f2a44;
   }
+  html.contraste{
+    --fondo:#000000;
+    --texto:#ffeb3b;
+    --principal:#ffee58;
+    --claro:#111111;
+    --borde:#ffeb3b;
+  }
+  html.contraste body{background:var(--fondo); color:var(--texto)}
+  html.contraste .btn{padding:1rem 1.4rem; font-size:1.05rem;}
+  html.contraste .categoria{padding:.7rem 1rem; font-size:1rem;}
+  html.contraste .tarjeta{padding:1.8rem; border-color:var(--borde);}
+  html.contraste .linea{background:var(--borde); margin:1.8rem 0;}
+  html.contraste input, html.contraste textarea, html.contraste select{border-color:var(--borde); color:var(--texto); background:#101010;}
   html.letra-grande{--tamano:21px}
   html.letra-muy-grande{--tamano:24px}
   html{font-size:var(--tamano); scroll-behavior:smooth}
   body{background:var(--fondo); color:var(--texto); transition:.4s}
-  .btn{background:var(--principal); color:white; padding:.7rem 1.1rem; border-radius:14px; font-weight:600; display:inline-block}
+  .btn{background:var(--principal); color:white; padding:.7rem 1.1rem; border-radius:14px; font-weight:600; display:inline-block; transition:.25s ease}
   .btn:hover{filter:brightness(1.1); transform:translateY(-1px)}
-  .tarjeta{background:var(--claro); border:1px solid var(--borde); border-radius:18px; padding:1.2rem; transition:.25s}
-  .tarjeta:hover{border-color:var(--principal); box-shadow:0 8px 22px -10px #1d4ed880}
+  .tarjeta{background:var(--claro); border:1px solid var(--borde); border-radius:18px; padding:1.2rem; transition:.3s ease, box-shadow .3s ease;}
+  .tarjeta:hover{border-color:var(--principal); box-shadow:0 8px 22px -10px #1d4ed880; transform:translateY(-2px)}
+  .guia-img{width:100%; max-width:100%; border-radius:18px; margin:1rem 0; display:block;}
+  .paso{display:flex; flex-direction:column; gap:.75rem;}
+  .paso img{border-radius:16px; width:100%; height:auto;}
+  .categoria.contraste{background:var(--principal); color:#111; border-color:var(--borde)}
+  .linea{height:1px; background:var(--borde); margin:1.2rem 0}
+  .boton-peq{font-size:.95rem; padding:.7rem .9rem;}
+  @media print {
+    body{background:white;color:#000}
+    header, footer, #categorias, #buscador, #boxAdmin, button, #modal, #tema, .categoria{display:none!important}
+    .tarjeta{background:white;border:none;box-shadow:none;}
+    .paso{page-break-inside:avoid;}
+  }
   .categoria{border:1px solid var(--borde); padding:.4rem .9rem; border-radius:999px; font-size:.85rem; cursor:pointer}
   .categoria.activo,.categoria:hover{background:var(--principal); color:white; border-color:var(--principal)}
   details>summary{cursor:pointer; list-style:none; font-weight:600; padding:.8rem 0}
@@ -53,7 +172,7 @@
         <button data-tamano="" class="categoria">A</button>
         <button data-tamano="letra-grande" class="categoria">A+</button>
         <button data-tamano="letra-muy-grande" class="categoria">A++</button>
-        <button id="tema" class="categoria">🌙 / ☀️</button>
+        <button id="tema" class="categoria">🌙 / ☀️ / ⚡</button>
       </div>
     </div>
 
@@ -74,6 +193,27 @@
       <span class="categoria" data-cat="banco">🏦 Banco y dinero</span>
       <span class="categoria" data-cat="compras">🛒 Compras por internet</span>
       <span class="categoria" data-cat="favoritos">⭐ Mis favoritos</span>
+    </div>
+    <div class="mt-4 flex flex-wrap gap-2 items-center">
+      <button id="btnVoz" class="categoria">🎙️ Buscar por voz</button>
+      <button id="btnRecordatorio" class="categoria">🔔 Guía diaria</button>
+      <button id="btnImprimir" class="categoria">🖨️ Imprimir</button>
+      <button id="btnInstalar" class="categoria hidden">📲 Instalar app</button>
+      <button id="btnAdmin" class="categoria">🛠️ Admin</button>
+    </div>
+    <div id="recordatorioMensaje" class="hidden mt-3 text-base font-semibold opacity-80"></div>
+    <div id="boxAdmin" class="hidden mt-4 tarjeta">
+      <h2 class="text-xl font-extrabold mb-3">Panel de administración</h2>
+      <label class="block mb-1">Título</label>
+      <input id="adminTitulo" class="w-full p-3 rounded-xl border-2 mb-3 outline-none" style="border-color:var(--borde);background:var(--fondo)">
+      <label class="block mb-1">Categoría</label>
+      <input id="adminCategoria" class="w-full p-3 rounded-xl border-2 mb-3 outline-none" style="border-color:var(--borde);background:var(--fondo)" placeholder="whatsapp, celular, seguridad, banco, compras">
+      <label class="block mb-1">Icono</label>
+      <input id="adminIcono" class="w-full p-3 rounded-xl border-2 mb-3 outline-none" style="border-color:var(--borde);background:var(--fondo)" placeholder="📱">
+      <label class="block mb-1">Texto de la guía</label>
+      <textarea id="adminCuerpo" rows="5" class="w-full p-3 rounded-xl border-2 mb-3 outline-none resize-none" style="border-color:var(--borde);background:var(--fondo)"></textarea>
+      <button id="btnGuardarGuia" class="btn">➕ Agregar guía</button>
+      <p id="adminMensaje" class="hidden mt-3 text-sm opacity-80"></p>
     </div>
   </div>
 </header>
@@ -107,18 +247,40 @@
     <textarea required id="pregunta" rows="3" class="w-full p-3 rounded-xl border-2 mb-3 outline-none resize-none" style="border-color:var(--borde);background:var(--fondo)"></textarea>
     <button class="btn text-lg">➤ Enviar pregunta</button>
     <p id="okPregunta" class="hidden mt-3 text-green-600 font-semibold">✅ ¡Listo! La recibimos bien, la responderemos muy pronto.</p>
+    <p id="statusNube" class="hidden mt-2 text-sm opacity-80">☁️ Pregunta guardada en la nube.</p>
+    <p class="mt-2 text-sm opacity-70">Nota: si no está configurado Firebase, la pregunta se guarda localmente en el navegador.</p>
   </form>
 </main>
 
 <!-- 📖 MODAL PARA LEER LA GUÍA COMPLETA -->
 <div id="modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
   <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background:var(--fondo)">
-    <div class="flex justify-between items-start mb-3">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
       <span id="modalCat" class="categoria"></span>
-      <button id="cerrarModal" class="text-3xl leading-none">×</button>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btnCompartir" class="btn boton-peq">📤 Compartir</button>
+        <button id="btnModalAprendida" class="btn boton-peq">✓ Aprendida</button>
+        <button id="cerrarModal" class="text-3xl leading-none">×</button>
+      </div>
     </div>
     <h3 id="modalTitulo" class="text-2xl font-extrabold mb-2" style="color:var(--principal)"></h3>
     <div id="modalCuerpo" class="leading-relaxed space-y-3 mt-4"></div>
+    <div class="mt-5 space-y-3">
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btnEscuchar" class="btn">🔊 Escuchar guía</button>
+        <button id="btnPausar" class="btn hidden" style="background:#374151">⏸️ Pausar</button>
+        <button id="btnContinuar" class="btn hidden" style="background:#374151">▶️ Continuar</button>
+        <label class="text-sm opacity-80 flex items-center gap-2">Velocidad:
+          <select id="velocidadVoz" class="rounded-xl border-2 px-3 py-2" style="border-color:var(--borde);background:var(--fondo)">
+            <option value="0.8">0.8x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.2">1.2x</option>
+            <option value="1.5">1.5x</option>
+          </select>
+        </label>
+      </div>
+      <div id="mensajeVoz" class="text-sm opacity-70 hidden"></div>
+    </div>
     <div class="mt-5 text-sm opacity-70">💡 Recuerda: si te cuesta ver, usa los botones <b>A+ A++</b> de arriba a la derecha.</div>
   </div>
 </div>
@@ -189,19 +351,104 @@ cuerpo:`<p>En Google Chrome:</p>
 <p>2. <b>Historial</b> → <b>Borrar datos de navegación</b></p>
 <p>3. Marca todo y dale <b>Borrar datos</b>.</p>
 <p>⚠️ Esto borra de tu celular. La compañía de internet y el gobierno sí pueden seguir viendo, solo es para quien agarre tu celular después.</p>`},
+{id:9,titulo:"Cómo usar Google Maps",cat:"celular",icono:"🗺️",
+cuerpo:`<p>1. Abre la aplicación <b>Google Maps</b>.</p>
+<p>2. Escribe en la barra de arriba dónde quieres ir.</p>
+<p>3. Toca <b>Cómo llegar</b> y elige <b>Auto</b>, <b>Transporte</b> o <b>Caminar</b>.</p>
+<p>4. Toca <b>Iniciar</b> para que te diga por dónde seguir.</p>
+<p>✅ Si quieres, deja el celular en un lugar seguro y solo escucha las indicaciones.</p>`},
+{id:10,titulo:"Cómo compartir ubicación",cat:"whatsapp",icono:"📍",
+cuerpo:`<p>1. Abre WhatsApp y entra al chat de la persona.</p>
+<p>2. Toca el dibujo de <b>📎</b> o <b>+</b> y elige <b>Ubicación</b>.</p>
+<p>3. Selecciona <b>Enviar ubicación en tiempo real</b> si quieres que te sigan mientras te mueves.</p>
+<p>4. Elige cuánto tiempo compartirla y toca <b>Enviar</b>.</p>`},
+{id:11,titulo:"Cómo usar la cámara",cat:"celular",icono:"📷",
+cuerpo:`<p>1. Busca la aplicación de <b>Cámara</b> en tu celular y ábrela.</p>
+<p>2. Busca un objeto bonito y apunta con la cámara.</p>
+<p>3. Toca el botón grande blanco para tomar la foto.</p>
+<p>4. Para grabar video, cambia a <b>Video</b> y toca el botón rojo.</p>
+<p>✅ Las fotos se guardan en <b>Galería</b> o <b>Fotos</b>.</p>`},
+{id:12,titulo:"Cómo hacer videollamadas grupales",cat:"whatsapp",icono:"👥",
+cuerpo:`<p>1. Abre un chat grupal en WhatsApp o crea uno nuevo.</p>
+<p>2. Toca el icono de <b>cámara</b> arriba en el chat.</p>
+<p>3. Selecciona las personas que quieras incluir.</p>
+<p>4. Toca <b>Iniciar videollamada</b>.</p>
+<p>✅ Puedes apagar la cámara si solo quieres escuchar.</p>`},
+{id:13,titulo:"Cómo reconocer llamadas falsas",cat:"seguridad",icono:"📵",
+cuerpo:`<p>1. Si te llaman diciendo que eres ganador, del banco o del gobierno, cuelga.</p>
+<p>2. El banco NUNCA te pide tus contraseñas, códigos o datos por teléfono.</p>
+<p>3. Si te llaman diciendo que van a cortar tu servicio, cuelga y llama tú a la empresa desde el número oficial.</p>
+<p>✅ Si dudas, pide a alguien de confianza que te ayude a comprobarlo.</p>`},
+{id:14,titulo:"Cómo usar QR",cat:"celular",icono:"🔳",
+cuerpo:`<p>1. Abre la aplicación de <b>Cámara</b> o el lector QR.</p>
+<p>2. Apunta al código QR sin tomar foto.</p>
+<p>3. Cuando aparezca el enlace, tócala para abrirlo.</p>
+<p>4. Si te pide permiso, dale <b>Abrir en navegador</b>.</p>`},
+{id:15,titulo:"Cómo usar Mercado Pago",cat:"compras",icono:"💳",
+cuerpo:`<p>1. Abre la aplicación <b>Mercado Pago</b>.</p>
+<p>2. Selecciona <b>Enviar dinero</b>, <b>Pagar</b> o <b>Recargar</b>.</p>
+<p>3. Escoge el método que quieres usar: tarjeta, QR o saldo.</p>
+<p>4. Revisa que el monto sea correcto y toca <b>Confirmar</b>.</p>
+<p>✅ Usa solo la aplicación oficial y no compartas tu clave con nadie.</p>`},
+{id:16,titulo:"Cómo usar CoDi",cat:"banco",icono:"🏧",
+cuerpo:`<p>1. Abre la aplicación de tu banco que tenga <b>CoDi</b>.</p>
+<p>2. Elige <b>Pagar con CoDi</b> o <b>Cobrar</b>.</p>
+<p>3. Escanea el código QR o muestra el tuyo.</p>
+<p>4. Confirma el monto y acepta la operación.</p>
+<p>✅ CoDi es seguro si usas la app oficial del banco y no compartes claves.</p>`},
+{id:17,titulo:"Cómo bloquear un número",cat:"seguridad",icono:"🚫",
+cuerpo:`<p>1. Abre la app de <b>Teléfono</b> o <b>Contactos</b>.</p>
+<p>2. Busca el número que quieres bloquear.</p>
+<p>3. Toca <b>Más</b> o los 3 puntitos y selecciona <b>Bloquear</b>.</p>
+<p>4. Así no te volverá a llamar ni enviar mensajes.</p>`},
+{id:18,titulo:"Cómo recuperar una cuenta",cat:"seguridad",icono:"🔐",
+cuerpo:`<p>1. Ve a la página o app del servicio y busca <b>Olvidé mi contraseña</b>.</p>
+<p>2. Ingresa tu correo o número de teléfono.</p>
+<p>3. Sigue los pasos que te envían por mensaje o correo.</p>
+<p>4. Elige una nueva contraseña segura.</p>
+<p>✅ Si no puedes, pide ayuda al soporte oficial del servicio.</p>`},
+{id:19,titulo:"Cómo borrar fotos duplicadas",cat:"celular",icono:"🗑️",
+cuerpo:`<p>1. Abre la app de <b>Fotos</b> o <b>Galería</b>.</p>
+<p>2. Revisa las fotos que aparecen iguales.</p>
+<p>3. Mantén pulsada la foto que quieres borrar y toca <b>Eliminar</b>.</p>
+<p>4. Repite con las otras copias.</p>`},
+{id:20,titulo:"Cómo liberar espacio",cat:"celular",icono:"🧹",
+cuerpo:`<p>1. Ve a <b>Ajustes</b> > <b>Almacenamiento</b> o <b>Espacio</b>.</p>
+<p>2. Revisa qué ocupa más: fotos, videos o apps.</p>
+<p>3. Borra fotos o videos que ya no necesitas.</p>
+<p>4. Desinstala apps que no uses.</p>
+<p>✅ También puedes pasar fotos a una memoria o a la nube.</p>`},
 ];
 
 const $ = s => document.querySelector(s);
-const BD = JSON.parse(localStorage.getItem('tec-sin-prisa') || '{"favoritos":[],"tema":"claro","tamano":""}');
+const BD = JSON.parse(localStorage.getItem('tec-sin-prisa') || '{"favoritos":[],"aprendidas":[],"tema":"claro","tamano":""}');
+const GUIAS_EXTRA = JSON.parse(localStorage.getItem('guiasExtra') || '[]');
+
+// CARGAR GUÍAS AGREGADAS EN ADMIN
+if(GUIAS_EXTRA.length){
+  GUIAS.push(...GUIAS_EXTRA.map(g=>({
+    ...g,
+    cuerpo: g.cuerpo || '',
+  })));
+}
 
 // ⚙️ CARGAR CONFIGURACIÓN GUARDADA
 if(BD.tema==='oscuro') document.documentElement.classList.add('oscuro');
+else if(BD.tema==='contraste') document.documentElement.classList.add('contraste');
 if(BD.tamano) document.documentElement.classList.add(BD.tamano);
 
-// 🎨 TEMA OSCURO / CLARO
+// 🎨 TEMA: claro / oscuro / alto contraste
 $('#tema').onclick = () => {
-  document.documentElement.classList.toggle('oscuro');
-  BD.tema = document.documentElement.classList.contains('oscuro')?'oscuro':'claro';
+  document.documentElement.classList.remove('oscuro','contraste');
+  if(BD.tema === 'claro' || !BD.tema) {
+    document.documentElement.classList.add('oscuro');
+    BD.tema = 'oscuro';
+  } else if(BD.tema === 'oscuro') {
+    document.documentElement.classList.add('contraste');
+    BD.tema = 'contraste';
+  } else {
+    BD.tema = 'claro';
+  }
   guardar();
 };
 
@@ -265,31 +512,303 @@ function pintar(){
   document.querySelectorAll('[data-ver]').forEach(b=>b.onclick=()=>abrirModal(+b.dataset.ver));
 }
 
+function cuerpoConImagenes(cuerpo){
+  const placeholder = `<img class="guia-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='420' viewBox='0 0 800 420'%3E%3Crect width='800' height='420' fill='%23111'/%3E%3Ctext x='50%25' y='45%25' fill='%23ffeb3b' font-size='36' font-family='Arial, sans-serif' text-anchor='middle'%3EImagen ilustrativa%3C/text%3E%3Ctext x='50%25' y='60%25' fill='%23ffffff' font-size='22' font-family='Arial, sans-serif' text-anchor='middle'%3ECompatible offline%3C/text%3E%3C/svg%3E" alt="Imagen ilustrativa">`;
+  return cuerpo.replace(/<p>(.*?)<\/p>/g, (match, text, index) => {
+    const paso = `<div class="paso">${match}${placeholder}</div>`;
+    return paso;
+  });
+}
+
+function marcarAprendida(id){
+  const i = BD.aprendidas.indexOf(id);
+  i>=0 ? BD.aprendidas.splice(i,1) : BD.aprendidas.push(id);
+  guardar(); pintar();
+}
+
+function compartirGuia(id){
+  const guia = GUIAS.find(g=>g.id===id);
+  if(!guia) return;
+  const texto = encodeURIComponent(`Mira esta guía de Tecnofacil:\n${guia.titulo}\n\n${guia.cuerpo.replace(/<[^>]+>/g,' ').slice(0,200)}...`);
+  const url = `https://wa.me/?text=${texto}`;
+  window.open(url, '_blank');
+}
+
+function mostrarRecordatorio(texto, clase='text-black'){
+  const msg = $('#recordatorioMensaje');
+  msg.textContent = texto;
+  msg.className = `mt-3 text-base font-semibold opacity-80 ${clase}`;
+  msg.classList.remove('hidden');
+}
+
+function scheduleReminder(){
+  const recordatorio = JSON.parse(localStorage.getItem('recordatorio') || '{}');
+  const ahora = Date.now();
+  if(recordatorio.next && ahora >= recordatorio.next){
+    mostrarRecordatorio('🔔 Hoy toca aprender una guía. Abre una guía y empieza.', 'text-green-700');
+    recordatorio.next = ahora + 24*60*60*1000;
+    localStorage.setItem('recordatorio', JSON.stringify(recordatorio));
+  }
+}
+
+function guardarRecordatorio(){
+  const next = Date.now() + 24*60*60*1000;
+  localStorage.setItem('recordatorio', JSON.stringify({next}));
+  mostrarRecordatorio('✅ Recordatorio diario guardado. Te avisaremos mañana.', 'text-blue-700');
+}
+
+function obtenerProximoId(){
+  const ids = GUIAS.map(g=>g.id);
+  return Math.max(0, ...ids) + 1;
+}
+
+function guardarGuiaAdmin(){
+  const titulo = $('#adminTitulo').value.trim();
+  const cat = $('#adminCategoria').value.trim() || 'general';
+  const icono = $('#adminIcono').value.trim() || '📘';
+  const cuerpo = $('#adminCuerpo').value.trim();
+  if(!titulo || !cuerpo) return;
+  const nueva = {id: obtenerProximoId(), titulo, cat, icono, cuerpo};
+  GUIAS.push(nueva);
+  GUIAS_EXTRA.push(nueva);
+  localStorage.setItem('guiasExtra', JSON.stringify(GUIAS_EXTRA));
+  pintar();
+  $('#adminMensaje').textContent = '✅ Guía agregada correctamente.';
+  $('#adminMensaje').classList.remove('hidden');
+  setTimeout(()=>$('#adminMensaje').classList.add('hidden'),5000);
+  $('#adminTitulo').value = '';
+  $('#adminCategoria').value = '';
+  $('#adminIcono').value = '';
+  $('#adminCuerpo').value = '';
+}
+
 // 📖 ABRIR GUÍA COMPLETA
 function abrirModal(id){
   const g = GUIAS.find(x=>x.id===id);
   $('#modalTitulo').textContent = g.icono+' '+g.titulo;
   $('#modalCat').textContent = g.cat;
-  $('#modalCuerpo').innerHTML = g.cuerpo;
+  $('#modalCuerpo').innerHTML = cuerpoConImagenes(g.cuerpo);
   $('#modal').classList.remove('hidden');
   $('#modal').classList.add('flex');
+  prepararVoz(g);
+  $('#btnModalAprendida').textContent = BD.aprendidas.includes(id) ? '✓ Aprendida' : '✓ Marcar aprendida';
+  $('#btnModalAprendida').onclick = () => { marcarAprendida(id); };
+  $('#btnCompartir').onclick = () => { compartirGuia(id); };
 }
-$('#cerrarModal').onclick = () => $('#modal').classList.add('hidden');
-$('#modal').onclick = e => { if(e.target===$('#modal')) $('#modal').classList.add('hidden') };
+$('#cerrarModal').onclick = () => {
+  $('#modal').classList.add('hidden');
+  detenerVoz();
+};
+$('#modal').onclick = e => { if(e.target===$('#modal')) { $('#modal').classList.add('hidden'); detenerVoz(); } };
+
+// 🗣️ VOZ: lectura de la guía
+const btnEscuchar = $('#btnEscuchar');
+const btnPausar = $('#btnPausar');
+const btnContinuar = $('#btnContinuar');
+const btnCompartir = $('#btnCompartir');
+const btnModalAprendida = $('#btnModalAprendida');
+const btnVoz = $('#btnVoz');
+const btnRecordatorio = $('#btnRecordatorio');
+const btnImprimir = $('#btnImprimir');
+const btnInstalar = $('#btnInstalar');
+const btnAdmin = $('#btnAdmin');
+const velocidadVoz = $('#velocidadVoz');
+const mensajeVoz = $('#mensajeVoz');
+let utterance;
+let textoActual = '';
+let deferredPrompt = null;
+
+function prepararVoz(guia){
+  textoActual = guia.titulo + '. ' + guia.cuerpo.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+  btnPausar.classList.add('hidden');
+  btnContinuar.classList.add('hidden');
+  btnEscuchar.textContent = '🔊 Escuchar guía';
+  mensajeVoz.classList.add('hidden');
+}
+
+function detenerVoz(){
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
+  btnPausar.classList.add('hidden');
+  btnContinuar.classList.add('hidden');
+}
+
+function iniciarVoz(){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  utterance = new SpeechSynthesisUtterance(textoActual);
+  utterance.rate = Number(velocidadVoz.value || 1);
+  utterance.lang = 'es-ES';
+  utterance.onend = () => {
+    btnPausar.classList.add('hidden');
+    btnContinuar.classList.add('hidden');
+    btnEscuchar.textContent = '🔊 Escuchar guía';
+    mensajeVoz.textContent = 'Lectura terminada.';
+    mensajeVoz.classList.remove('hidden');
+  };
+  utterance.onerror = () => {
+    mensajeVoz.textContent = 'Lo siento, no se pudo reproducir el audio.';
+    mensajeVoz.classList.remove('hidden');
+  };
+  window.speechSynthesis.speak(utterance);
+  btnPausar.classList.remove('hidden');
+  btnContinuar.classList.add('hidden');
+  btnEscuchar.textContent = '🔊 Reproducir de nuevo';
+  mensajeVoz.textContent = 'Leyendo...';
+  mensajeVoz.classList.remove('hidden');
+}
+
+function pausarVoz(){
+  if(window.speechSynthesis && window.speechSynthesis.speaking){
+    window.speechSynthesis.pause();
+    btnPausar.classList.add('hidden');
+    btnContinuar.classList.remove('hidden');
+    mensajeVoz.textContent = 'Pausado. Presiona continuar para seguir.';
+    mensajeVoz.classList.remove('hidden');
+  }
+}
+
+function continuarVoz(){
+  if(window.speechSynthesis && window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    btnPausar.classList.remove('hidden');
+    btnContinuar.classList.add('hidden');
+    mensajeVoz.textContent = 'Continuando la lectura...';
+    mensajeVoz.classList.remove('hidden');
+  }
+}
+
+btnEscuchar.onclick = () => {
+  if(!textoActual) return;
+  iniciarVoz();
+};
+btnPausar.onclick = pausarVoz;
+btnContinuar.onclick = continuarVoz;
+velocidadVoz.onchange = () => {
+  if(window.speechSynthesis && window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+    iniciarVoz();
+  }
+};
+
+btnVoz.onclick = () => {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition){
+    mostrarRecordatorio('⚠️ Tu navegador no soporta búsqueda por voz.', 'text-red-700');
+    return;
+  }
+  const recog = new SpeechRecognition();
+  recog.lang = 'es-ES';
+  recog.interimResults = false;
+  recog.maxAlternatives = 1;
+  recog.onresult = event => {
+    const texto = event.results[0][0].transcript;
+    $('#buscador').value = texto;
+    pintar();
+    mostrarRecordatorio(`🎤 Búsqueda por voz: ${texto}`,'text-blue-700');
+  };
+  recog.onerror = () => mostrarRecordatorio('⚠️ No se pudo iniciar la búsqueda por voz.', 'text-red-700');
+  recog.start();
+};
+
+btnInstalar.onclick = async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+  if(choice.outcome === 'accepted'){
+    mostrarRecordatorio('✅ App instalada. Gracias por usar Tecnofacil.', 'text-green-700');
+  } else {
+    mostrarRecordatorio('⚠️ Instalación cancelada. Puedes instalarla después desde el navegador.', 'text-yellow-700');
+  }
+  deferredPrompt = null;
+  btnInstalar.classList.add('hidden');
+};
+
+btnRecordatorio.onclick = guardarRecordatorio;
+btnImprimir.onclick = () => window.print();
+btnAdmin.onclick = () => $('#boxAdmin').classList.toggle('hidden');
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredPrompt = event;
+  btnInstalar.classList.remove('hidden');
+  mostrarRecordatorio('📲 Puedes instalar la app Tecnofacil para usarla más fácil.', 'text-blue-700');
+});
+
+window.addEventListener('appinstalled', () => {
+  btnInstalar.classList.add('hidden');
+  mostrarRecordatorio('✅ Tecnofacil instalada correctamente.', 'text-green-700');
+});
+
+scheduleReminder();
+
+// ☁️ FIREBASE: guardar preguntas en la nube
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+};
+
+let firebaseListo = false;
+try {
+  firebase.initializeApp(firebaseConfig);
+  firebaseListo = !!firebaseConfig.projectId;
+} catch (error) {
+  console.warn('Firebase no está configurado:', error);
+}
+
+function guardarEnLaNube(pregunta){
+  if(!firebaseListo) return Promise.reject('Firebase no configurado');
+  return firebase.firestore().collection('preguntas').add(pregunta);
+}
+
+function guardarLocal(pregunta){
+  const anteriores = JSON.parse(localStorage.getItem('preguntas')||'[]');
+  anteriores.push(pregunta);
+  localStorage.setItem('preguntas', JSON.stringify(anteriores));
+}
+
+function mostrarEstadoNube(texto, exito=true){
+  const status = $('#statusNube');
+  status.textContent = texto;
+  status.classList.toggle('text-green-600', exito);
+  status.classList.toggle('text-red-600', !exito);
+  status.classList.remove('hidden');
+}
 
 // ✍️ PREGUNTA
 $('#formPregunta').onsubmit = e => {
   e.preventDefault();
-  const anteriores = JSON.parse(localStorage.getItem('preguntas')||'[]');
-  anteriores.push({nombre:$('#nombre').value, pregunta:$('#pregunta').value, fecha:new Date().toLocaleString('es-MX')});
-  localStorage.setItem('preguntas', JSON.stringify(anteriores));
+  const pregunta = {
+    nombre: $('#nombre').value,
+    pregunta: $('#pregunta').value,
+    fecha: new Date().toLocaleString('es-MX'),
+  };
+  guardarLocal(pregunta);
+  if(firebaseListo){
+    guardarEnLaNube(pregunta)
+      .then(()=> mostrarEstadoNube('✅ Pregunta guardada en la nube.'))
+      .catch(()=> mostrarEstadoNube('⚠️ No se pudo guardar en la nube. Queda guardada localmente.', false));
+  } else {
+    mostrarEstadoNube('⚠️ Firebase no está configurado. Se guardó localmente.');
+  }
   $('#formPregunta').reset();
   $('#okPregunta').classList.remove('hidden');
   setTimeout(()=>$('#okPregunta').classList.add('hidden'),6000);
+  setTimeout(()=>$('#statusNube').classList.add('hidden'),6000);
 };
 
 // 🚀 INICIAR
 pintar();
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('service-worker.js')
+    .then(()=> console.log('Service Worker registrado'))
+    .catch(err=> console.warn('Error al registrar Service Worker', err));
+}
 </script>
 </body>
 </html>
