@@ -143,6 +143,17 @@
   .categoria.contraste{background:var(--principal); color:#111; border-color:var(--borde)}
   .linea{height:1px; background:var(--borde); margin:1.2rem 0}
   .boton-peq{font-size:.95rem; padding:.7rem .9rem;}
+  .ai-card{background:var(--claro); border:1px solid var(--borde); border-radius:18px; padding:1.5rem; margin-bottom:1.5rem;}
+  .ai-card h2{font-size:1.5rem; margin-bottom:1rem;}
+  .ai-input{width:100%; padding:1rem 1.2rem; border-radius:16px; border:1px solid var(--borde); background:var(--fondo); color:var(--texto);}
+  .ai-sugerencias{display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1rem;}
+  .ai-sugerencia{background:var(--principal); color:white; border:none; padding:.65rem 1rem; border-radius:999px; cursor:pointer;}
+  .ai-sugerencia:hover{filter:brightness(1.05)}
+  .ai-respuesta{background:white; border:1px solid var(--borde); border-radius:18px; padding:1.2rem; margin-top:1rem;}
+  .ai-respuesta p{margin:0}
+  .ai-respuesta .guia-relacionada{margin-top:1rem; padding:1rem; background:var(--claro); border-radius:16px;}
+  .ai-respuesta .guia-relacionada h3{margin:0 0 .4rem}
+  .ai-respuesta .guia-relacionada p{margin:0}
   @media print {
     body{background:white;color:#000}
     header, footer, #categorias, #buscador, #boxAdmin, button, #modal, #tema, .categoria{display:none!important}
@@ -220,6 +231,24 @@
 
 <!-- 📚 CONTENIDO PRINCIPAL -->
 <main class="max-w-5xl mx-auto px-4 py-8">
+  <section class="ai-card">
+    <h2>🤖 Asistente Inteligente</h2>
+    <p class="opacity-80">¿Qué quieres aprender? Usa tus propias guías para responder ejemplos como:</p>
+    <div class="ai-sugerencias">
+      <button type="button" class="ai-sugerencia" data-ejemplo="No encuentro mis fotos">No encuentro mis fotos</button>
+      <button type="button" class="ai-sugerencia" data-ejemplo="¿Qué significa WiFi?">¿Qué significa WiFi?</button>
+      <button type="button" class="ai-sugerencia" data-ejemplo="Mi celular está lento">Mi celular está lento</button>
+    </div>
+    <div class="mt-4">
+      <label class="block mb-2">Escribe tu pregunta</label>
+      <input id="aiInput" class="ai-input" type="text" placeholder="Escribe aquí lo que quieres aprender..." autocomplete="off">
+      <div class="flex flex-wrap gap-2 mt-3">
+        <button id="aiBuscar" class="btn boton-peq">🧠 Preguntar</button>
+        <button id="aiLimpiar" class="btn boton-peq" style="background:#6b7280">Limpiar</button>
+      </div>
+      <div id="aiRespuesta" class="ai-respuesta hidden" aria-live="polite"></div>
+    </div>
+  </section>
   <div class="grid md:grid-cols-2 gap-5" id="lista"></div>
   <div id="vacio" class="hidden text-center py-16 opacity-80">
     <div class="text-6xl mb-3">🔎</div>
@@ -477,6 +506,65 @@ document.querySelectorAll('#categorias .categoria').forEach(c=>{
 
 // 🔎 BUSCADOR EN TIEMPO REAL
 $('#buscador').addEventListener('input', pintar);
+
+// 🤖 ASISTENTE DE IA
+const aiInput = $('#aiInput');
+const aiRespuesta = $('#aiRespuesta');
+const aiBuscar = $('#aiBuscar');
+const aiLimpiar = $('#aiLimpiar');
+const aiEjemplos = document.querySelectorAll('.ai-sugerencia');
+
+aiBuscar.onclick = () => procesarAI();
+aiLimpiar.onclick = () => { aiInput.value = ''; aiRespuesta.classList.add('hidden'); };
+aiEjemplos.forEach(b => b.onclick = () => { aiInput.value = b.dataset.ejemplo; procesarAI(); });
+
+function buscarGuiasAI(texto){
+  const query = texto.toLowerCase().trim();
+  if(!query) return [];
+  return GUIAS.map(g => {
+    const score = [g.titulo, g.cat, g.cuerpo].reduce((sum, field) => {
+      const bucket = field.toLowerCase();
+      return sum + (bucket.includes(query) ? 10 : 0) + (bucket.split(query).length - 1);
+    }, 0);
+    return {...g, score};
+  }).filter(g => g.score > 0).sort((a,b)=>b.score-a.score);
+}
+
+function generarRespuestaAI(texto, resultados){
+  if(resultados.length===0){
+    return `No encontré una guía exacta para "${texto}". Prueba con palabras como WhatsApp, fotos, seguridad o cámara.`;
+  }
+  const principal = resultados[0];
+  const adicionales = resultados.slice(1,3);
+  let respuesta = `Basado en nuestras guías, te recomiendo: <strong>${principal.titulo}</strong>. `;
+  respuesta += `Esta guía habla de ${principal.cat} y tiene pasos claros que te pueden ayudar.`;
+  if(adicionales.length){
+    respuesta += '<div class="mt-3"><strong>Otras guías útiles:</strong><ul class="mt-2">';
+    adicionales.forEach(g=> respuesta += `<li>${g.icono} ${g.titulo}</li>`);
+    respuesta += '</ul></div>';
+  }
+  return respuesta;
+}
+
+function procesarAI(){
+  const texto = aiInput.value.trim();
+  if(!texto){
+    aiRespuesta.classList.remove('hidden');
+    aiRespuesta.innerHTML = 'Escribe una pregunta para que el asistente te responda con nuestras guías.';
+    return;
+  }
+  const resultados = buscarGuiasAI(texto);
+  aiRespuesta.classList.remove('hidden');
+  aiRespuesta.innerHTML = generarRespuestaAI(texto, resultados);
+  if(resultados.length){
+    resultados.slice(0,2).forEach(g => {
+      const div = document.createElement('div');
+      div.className = 'guia-relacionada';
+      div.innerHTML = `<h3>${g.icono} ${g.titulo}</h3><p>${g.cuerpo.replace(/<[^>]+>/g,' ').slice(0,110)}…</p><button class="btn boton-peq mt-3" onclick="abrirModal(${g.id})">Leer guía</button>`;
+      aiRespuesta.appendChild(div);
+    });
+  }
+}
 
 // ⭐ FAVORITOS
 function favorito(id){
